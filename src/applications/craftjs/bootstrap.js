@@ -48,7 +48,7 @@ $(function () {
 			return query;
 		},
 		startModules = function () {
-			if (modules) {
+			if (typeof modules !== "undefined") {
 				$.each(modules, function() {
 					this();
 				});
@@ -82,7 +82,7 @@ $(function () {
 		}
 	}), getBuildFlags).init();
 
-	projectPanelController = new craftjs.JobPanelController("#project-files", projectModel).init();
+	projectPanelController = new craftjs.FavoritesPanelController("#project-files", projectModel).init();
 	pageController = new craftjs.PageController(projectModel, getBuildFlags).init();
 	searchController = new craftjs.SearchController("search-script", "source", "result-info");
 	

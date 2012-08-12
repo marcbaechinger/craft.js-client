@@ -7,7 +7,7 @@
 		renderProjectItem = function (path) {
 			return craftjs.renderById("project-file", {path: path});
 		},
-		JobPanelController = function JobPanelController(containerId, model) {
+		FavoritesPanelController = function FavoritesPanelController(containerId, model) {
 			return new controller.ModelAwareController({
 				model: model,
 				containerSelector: containerId,
@@ -24,10 +24,11 @@
 						}
 					},
 					"@save-job": function () {
-						if (!this.isEmpty()) {
+						var jobName = prompt("Enter a job name");
+						if (jobName && !this.isEmpty()) {
+							
 							craftjs.services.storeJob({
-								// TODO rename to jobName
-								name: localStorage.projectName,
+								name: jobName,
 								files: this.model.data,
 								expand: true,
 								transformation: this.getTransformFlags()
@@ -77,5 +78,5 @@
 				}
 			});
 		};
-	exports.craftjs.JobPanelController = JobPanelController;
+	exports.craftjs.FavoritesPanelController = FavoritesPanelController;
 }(this, jQuery));

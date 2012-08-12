@@ -11,6 +11,7 @@
 					projectLabel: ".project-name",
 					runAllTestsButton: ".all-tests"
 				},
+				// TODO manage actions in a modular way instead of the big events objects
 				events: {
 					"@nav": function (e) {
 						var target = $(e.target),
@@ -37,6 +38,57 @@
 								target.closest("li").remove();
 							});
 						}
+					},
+					"@remove-git-repo": function(e) {
+						var listItem = $(e.target).closest("li"),
+							name = listItem.data("name");
+							
+						if (name) {
+							craftjs.services.deleteGitRepository(name, function (data) {
+								if (data.status !== "ok") {
+									alert(data.message);
+								} else {
+									listItem.remove();
+								}
+							});
+						}
+					},
+					"@add-repo": function () {
+						var that = this,
+							dialog = this.repoDialog;
+						if (!dialog) {
+							dialog =  $("#repo-dialog").modal({
+								show: false
+							});
+							dialog.on("show", function () {
+								dialog.find(".error").hide();
+							});
+							dialog.find(".btn-primary").on("click", function() {
+								var name = dialog.find("#repo-name").val(),
+									url = dialog.find("#repo-url").val();
+									
+								craftjs.services.addGitRepository(name, url, function (data) {
+									if (data.status === "ok") {
+										var listItem =  "<li class='row-fluid' data-name='" + 
+											name + 
+											"'><span class='span2'><span class='label label-warning' onclick='document.location=\"/repo/" + 
+											name + 
+											"\"'>repo:/" +
+											name +
+											"</span></span><span class='url'>" + 
+											url +
+											"</span><button class='close' data-action='remove-git-repo'>&times;</button></li>";
+										
+										$("#git-hooks").append(listItem);
+										dialog.modal("hide");
+									} else {
+										dialog.find(".error").text(data.message).show();
+									}
+								});
+							});
+						}
+						dialog.modal("show");
+						
 					},
 					// TODO [sprint-1] to complex => refactor
 					"@toggle-source-markers": function () {
@@ -94,22 +146,21 @@
 					},
 					"@send-configuration": function (e) {
 						var resourcePathInput = $("#resource-path"),
-							path = resourcePathInput.val();
+							path = resourcePathInput.val(),
+							useGit = $("#use-git").attr('checked') === "checked",
+							gitString = " while not using GIT";
 							
 						if (path.trim().length < 1) {
 							$("#configuration .feedback").text("enter a path to the directory where your javascripts are").show();
 						} else {
-							craftjs.services.sendConfiguration({ path: path }, function() {
+							craftjs.services.sendConfiguration({ path: path, useGit: useGit }, function() {
 								resourcePathInput.attr("disabled", "true");
-								$("#configuration .feedback").text("resource directory points now to '" + path + "'").show();
+								if (useGit) {
+									gitString = " while using GIT";
+								}
+								$("#configuration .feedback").text("resource directory points now to '" + path + "'" + gitString).show();
 							});
 						}
-					},
-					"@show-html": function (e) {
-						alert("action page-controller@show-html not implemented yet");
-					},
-					"@create-test": function(e) {
-						
 					},
 					"@remove-from-project": function (e) {
 						var target = $(e.target),

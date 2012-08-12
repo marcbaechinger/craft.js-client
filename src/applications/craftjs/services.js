@@ -23,9 +23,9 @@
 			data: JSON.stringify(job),
 			dataType: "json",
 			contentType: "application/json",
-			error: function(res) {
+			error: function (res) {
 				if (callback) {
-					callback(undefined, res);	
+					callback(undefined, res);
 				} else {
 					console.log(res);
 				}
@@ -65,6 +65,31 @@
 				if (callback && jsonData.status === "ok") {
 					callback();
 				}
+			}
+		});
+	};
+	
+	exports.craftjs.services.addGitRepository = function (name, url, callback) {
+		$.ajax("/config/githook", {
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({name: name, url: url}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
+	
+	
+	exports.craftjs.services.deleteGitRepository = function (name, callback) {
+		$.ajax("/config/githook/" + name, {
+			type: "DELETE",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({name: name}),
+			success: function (jsonData) {
+				callback(jsonData);
 			}
 		});
 	};
