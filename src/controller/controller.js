@@ -40,7 +40,7 @@
 		this.attachEvents();
 		this.bindActionHandler();
 		
-		console.log("controller started: " , this );
+		console.log("controller started: " , this.container.attr("id") );
 		return this;
 	};
 	Controller.prototype.bindActionHandler = function () {

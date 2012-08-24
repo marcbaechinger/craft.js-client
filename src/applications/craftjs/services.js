@@ -82,6 +82,29 @@
 	};
 	
 	
+	exports.craftjs.services.addCdnResource = function (name, url, callback) {
+		$.ajax("/config/cdn/name", {
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({name: name, url: url}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
+	
+	exports.craftjs.services.gitPull = function (name, callback) {
+		$.ajax("/config/githook/" + name, {
+			type: "PUT",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({name: name}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
 	exports.craftjs.services.deleteGitRepository = function (name, callback) {
 		$.ajax("/config/githook/" + name, {
 			type: "DELETE",

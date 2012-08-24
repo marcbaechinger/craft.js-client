@@ -39,7 +39,45 @@
 							});
 						}
 					},
-					"@remove-git-repo": function(e) {
+					"@open-cdn-dialog": function () {
+						var that = this;
+						if (!this.cdnDialog) {
+							this.cdnDialog =  $("#cdn-dialog").modal({
+								show: false
+							});
+							this.cdnDialog.on("show", function () {
+								that.cdnDialog.find(".error").hide();
+							});
+							this.cdnDialog.find(".btn-primary").on("click", function () {
+								var name = that.cdnDialog.find("#repo-name").val(),
+									url = that.cdnDialog.find("#repo-url").val();
+									
+								craftjs.services.addCdnResource(name, url, function (data) {
+									if (data.status !== "ok") {
+										alert(data.message);
+									} else {
+										that.cdnDialog.modal("hide");
+									}
+								});
+							});
+						}
+						this.cdnDialog.modal("show");
+					},
+					"@git-pull": function (e) {
+						var listItem = $(e.target).closest("li"),
+							name = listItem.data("name");
+						
+						if (name) {
+							craftjs.services.gitPull(name, function (data) {
+								if (data.status !== "ok") {
+									alert(data.message);
+								} else {
+									alert(data.message);
+								}
+							});
+						}
+					},
+					"@remove-git-repo": function (e) {
 						var listItem = $(e.target).closest("li"),
 							name = listItem.data("name");
 							
@@ -54,18 +92,17 @@
 						}
 					},
 					"@add-repo": function () {
-						var that = this,
-							dialog = this.repoDialog;
-						if (!dialog) {
-							dialog =  $("#repo-dialog").modal({
+						var that = this;
+						if (!that.repoDialog) {
+							this.repoDialog =  $("#repo-dialog").modal({
 								show: false
 							});
-							dialog.on("show", function () {
-								dialog.find(".error").hide();
+							that.repoDialog.on("show", function () {
+								that.repoDialog.find(".error").hide();
 							});
-							dialog.find(".btn-primary").on("click", function() {
-								var name = dialog.find("#repo-name").val(),
-									url = dialog.find("#repo-url").val();
+							that.repoDialog.find(".btn-primary").on("click", function () {
+								var name = that.repoDialog.find("#repo-name").val(),
+									url = that.repoDialog.find("#repo-url").val();
 									
 								craftjs.services.addGitRepository(name, url, function (data) {
 									if (data.status === "ok") {
@@ -80,17 +117,16 @@
 											"</span><button class='close' data-action='remove-git-repo'>&times;</button></li>";
 										
 										$("#git-hooks").append(listItem);
-										dialog.modal("hide");
+										that.repoDialog.modal("hide");
 									} else {
-										dialog.find(".error").text(data.message).show();
+										that.repoDialog.find(".error").text(data.message).show();
 									}
 								});
 							});
 						}
-						dialog.modal("show");
-						
+						that.repoDialog.modal("show");
 					},
-					// TODO [sprint-1] to complex => refactor
+					// TODO to complex => refactor
 					"@toggle-source-markers": function () {
 						var markerPattern = /^[ \d]*:.*\/\/.*(FIXME|TODO)/,
 							buf = [],
@@ -136,7 +172,7 @@
 
 						craftjs.services.release({
 							jobfile: path
-						}, function(res, err) {
+						}, function (res, err) {
 							if (err) {
 								alert("error" + JSON.stringify(err));
 							} else {
@@ -153,7 +189,7 @@
 						if (path.trim().length < 1) {
 							$("#configuration .feedback").text("enter a path to the directory where your javascripts are").show();
 						} else {
-							craftjs.services.sendConfiguration({ path: path, useGit: useGit }, function() {
+							craftjs.services.sendConfiguration({ path: path, useGit: useGit }, function () {
 								resourcePathInput.attr("disabled", "true");
 								if (useGit) {
 									gitString = " while using GIT";
@@ -253,7 +289,7 @@
 						this.$elements.buttons.removeClass("contained").text("add to Favorites");
 					}
 					
-					$("[data-action='test-phantom']").each(function() {
+					$("[data-action='test-phantom']").each(function () {
 						that.$elements.runAllTestsButton.show();
 						return false;
 					});
