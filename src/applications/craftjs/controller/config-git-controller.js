@@ -9,6 +9,13 @@
 				message: message
 			}));
 		},
+		pullOutput = function (message, label, type) {
+			$("#git-alert").html(craftjs.renderById("git-pull-template", {
+				type: type || "success",
+				label: label || "Success",
+				message: message
+			}));
+		},
 		error = function (message, label) { info(message, label || "Error", "error"); },
 		success = function (message, label) { info(message, label || "Success", "success"); },
 		chomp = function (text) {  return text.replace(/ /g, "");  },
@@ -84,7 +91,7 @@
 								if (data.status !== "ok") {
 									error("while pulling repository '" + name + "': " + data.message);
 								} else {
-									success(data.output);
+									pullOutput(data.output);
 								}
 							});
 						}
