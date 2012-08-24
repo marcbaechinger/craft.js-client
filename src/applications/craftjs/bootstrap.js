@@ -2,7 +2,7 @@
 /*global $: false, craftjs: false, model: false, LINT_OPTIONS: false, LINT_DESC: false */
 //= require "../../controller/model-aware-controller"
 //= require "constants, services, renderer"
-//= require "controller/page-controller, controller/toolbar-controller"
+//= require "controller/page-controller, controller/toolbar-controller, controller/config-git-controller, controller/config-cdn-controller"
 //= require "controller/lint-controller, controller/jobpanel-controller, controller/search-controller"
 $(function () {
 	var bag, projectModel, lintOptions, lintModel, pageController, buildToolbarController,
