@@ -1,23 +1,14 @@
 /*global controller: false, $: false, craftjs: false */
 /*jslint browser: true */
-//= require "../../../controller/model-aware-controller"
+//= require "../../../controller/model-aware-controller, config-common"
 (function (exports) {
-	var info = function (message, label, type) {
-			$("#git-alert").html(craftjs.renderById("alert-template", {
-				type: type || "info",
-				label: label || "Info",
-				message: message
-			}));
-		},
-		pullOutput = function (message, repoName) {
+	var pullOutput = function (message, repoName) {
 			$("#git-alert").html(craftjs.renderById("git-pull-template", {
 				type: "success",
 				label: "Success fully pulled repository " + repoName,
 				message: message
 			}));
 		},
-		error = function (message, label) { info(message, label || "Error", "error"); },
-		success = function (message, label) { info(message, label || "Success", "success"); },
 		chomp = function (text) {  return text.replace(/ /g, "");  },
 		GitConfigController = function (model, containerId) {
 			return new controller.ModelAwareController({
@@ -37,7 +28,8 @@
 								var name = chomp(that.repoDialog.find("#repo-name").val()),
 									url = chomp(that.repoDialog.find("#repo-url").val());
 							
-								info("started cloning repository '" + url + "' to '" + name + "'");
+								craftjs.feedback.info("git", "started cloning repository <code>"
+									+ url + "</code> to <code>" + name + "</code>");
 								that.repoDialog.modal("hide");
 
 								craftjs.services.addGitRepository(name, url, function (data) {
@@ -49,16 +41,20 @@
 											name +
 											"\"'>repo:/" +
 											name +
-											"</span></span><a class='btn btn-primary btn-mini' data-action='git-pull'>pull</a><span class='url'>" +
-											url +
+											"</span></span><a class='btn btn-primary btn-mini' "
+											+ "data-action='git-pull'>"
+											+ "pull</a><span class='url'>"
+											+ url +
 											"</span><button class='close' data-action='remove-git-repo'>" +
 											"&times;</button></li>";
 
 										$("#git-hooks").append(listItem);
-										success("Cloned repository '" + url + "' to '" + name + "'");
+										craftjs.feedback.success("git", "Cloned repository '"
+											+ url + "' to '" + name + "'");
 									} else {
-										error("failed cloning repository '" + url + "' to '" +
-												name + "': " + data.message);
+										craftjs.feedback.error("git", "failed cloning repository <code>"
+											+ url + "</code> to <code>"
+											+ name + "</code>: " + data.message);
 									}
 								});
 							});
@@ -72,10 +68,10 @@
 						if (name) {
 							craftjs.services.deleteGitRepository(name, function (data) {
 								if (data.status !== "ok") {
-									error("while removing repository '" + data.message + "'");
+									craftjs.feedback.error("git", "while removing repository '" + data.message + "'");
 								} else {
 									listItem.remove();
-									success("removed repository '" + name + "'");
+									craftjs.feedback.success("git", "removed repository <code>" + name + "</code>");
 								}
 							});
 						}
@@ -85,21 +81,14 @@
 							name = listItem.data("name");
 
 						if (name) {
-							info("started pulling repository '" + name + "'");
+							craftjs.feedback.info("git", "started pulling repository '" + name + "'");
 							craftjs.services.gitPull(name, function (data) {
 								console.log(JSON.stringify(data));
 								if (data.status !== "ok") {
-									error("while pulling repository '" + name + "': " + data.message);
+									craftjs.feedback.info("git", "while pulling repository <code>"
+										+ name + "</code>: " + data.message);
 								} else {
-<<<<<<< HEAD
 									pullOutput(data.output, name);
-=======
-<<<<<<< HEAD
-									pullOutput(data.output, name);
-=======
-									pullOutput(data.output);
->>>>>>> 8e468d3d2d4c380404d26992efae89f75150e2b9
->>>>>>> d6066d30518de066f8b29c3fae38a9bed1ab8833
 								}
 							});
 						}

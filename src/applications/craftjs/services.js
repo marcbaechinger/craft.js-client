@@ -94,6 +94,19 @@
 		});
 	};
 	
+	
+	exports.craftjs.services.removeCdnResource = function (name, callback) {
+		$.ajax("/config/cdn/" + name, {
+			type: "DELETE",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({name: name}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
+	
 	exports.craftjs.services.gitPull = function (name, callback) {
 		$.ajax("/config/githook/" + name, {
 			type: "PUT",
