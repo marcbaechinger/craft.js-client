@@ -12,7 +12,7 @@
 		pullOutput = function (message, repoName) {
 			$("#git-alert").html(craftjs.renderById("git-pull-template", {
 				type: "success",
-				label: "Success fully pulled repository " + repoName, 
+				label: "Success fully pulled repository " + repoName,
 				message: message
 			}));
 		},
