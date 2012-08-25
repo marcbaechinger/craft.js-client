@@ -9,10 +9,17 @@
 				message: message
 			}));
 		},
+<<<<<<< HEAD
 		pullOutput = function (message, repoName) {
 			$("#git-alert").html(craftjs.renderById("git-pull-template", {
 				type: "success",
 				label: "Success fully pulled repository " + repoName, 
+=======
+		pullOutput = function (message, label, type) {
+			$("#git-alert").html(craftjs.renderById("git-pull-template", {
+				type: type || "success",
+				label: label || "Success",
+>>>>>>> 8e468d3d2d4c380404d26992efae89f75150e2b9
 				message: message
 			}));
 		},
@@ -91,7 +98,11 @@
 								if (data.status !== "ok") {
 									error("while pulling repository '" + name + "': " + data.message);
 								} else {
+<<<<<<< HEAD
 									pullOutput(data.output, name);
+=======
+									pullOutput(data.output);
+>>>>>>> 8e468d3d2d4c380404d26992efae89f75150e2b9
 								}
 							});
 						}
