@@ -91,7 +91,15 @@
 								if (data.status !== "ok") {
 									error("while pulling repository '" + name + "': " + data.message);
 								} else {
+<<<<<<< HEAD
 									pullOutput(data.output, name);
+=======
+<<<<<<< HEAD
+									pullOutput(data.output, name);
+=======
+									pullOutput(data.output);
+>>>>>>> 8e468d3d2d4c380404d26992efae89f75150e2b9
+>>>>>>> d6066d30518de066f8b29c3fae38a9bed1ab8833
 								}
 							});
 						}
