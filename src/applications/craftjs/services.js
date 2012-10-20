@@ -95,6 +95,31 @@
 	};
 	
 	
+	exports.craftjs.services.getAllTests = function (callback) {
+		$.ajax("/test", {
+			type: "GET",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
+	
+	
+	exports.craftjs.services.getAllJavascripts = function (callback) {
+		$.ajax("/test/javascripts", {
+			type: "GET",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({}),
+			success: function (jsonData) {
+				callback(jsonData);
+			}
+		});
+	};
+	
 	exports.craftjs.services.removeCdnResource = function (name, callback) {
 		$.ajax("/config/cdn/" + name, {
 			type: "DELETE",

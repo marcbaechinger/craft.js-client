@@ -4,6 +4,7 @@
 //= require "constants, services, renderer"
 //= require "controller/page-controller, controller/toolbar-controller, controller/config-git-controller, controller/config-cdn-controller"
 //= require "controller/lint-controller, controller/jobpanel-controller, controller/search-controller"
+//= require "controller/job-dialog-controller"
 $(function () {
 	var bag, projectModel, lintOptions, lintModel, pageController, buildToolbarController,
 		projectPanelController, lintOptionPanelController, searchController,

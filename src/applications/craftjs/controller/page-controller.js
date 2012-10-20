@@ -131,6 +131,16 @@
 						var target = $(e.target);
 						target.next().toggle();
 					},
+					"@show-job-dialog": function () {
+						var that = this;
+						if (!this.jobDialogController) {
+							this.jobDialogController = new craftjs.JobDialogController({
+								containerSelector: "#job-dialog"
+							});
+							this.jobDialogController.init();
+						}
+						this.jobDialogController.show();
+					},
 					"@test-phantom-all": function (e) {
 						$("[data-action='test-phantom']").trigger("click");
 					},
