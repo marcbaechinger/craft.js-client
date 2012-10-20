@@ -4,7 +4,7 @@
 //= require "../constants"
 (function (exports, $) {
 	var buildSingleFile = function (path, transformationFlags) {
-			var files = {},
+			var files = [path],
 				projectName = prompt("Name of this release");
 
 			if (projectName) {
@@ -12,11 +12,10 @@
 					alert("no spaces or tabs allowed");
 					return;
 				}
-				files[path] = {};
 				craftjs.services.release({
 					name: projectName,
 					expand: true,
-					files: files,
+					javascripts: files,
 					transformation: transformationFlags
 				});
 			}
