@@ -46,6 +46,9 @@ $(function () {
 				// TODO use a model acceesor instead of a controller to access model data
 				query += lintOptionPanelController.toQueryString();
 			}
+			if (!container.find("[name='plain']").attr("checked")) {
+				query += "&jsviewer=true";
+			}
 			return query;
 		},
 		startModules = function () {

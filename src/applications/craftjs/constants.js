@@ -1,7 +1,7 @@
 (function (exports) {
 	
 	exports.craftjs = exports.craftjs || {};
-	exports.ALL_BUILD_FLAGS = ["plain", "mangle", "expand", "squeeze", "beautify", "minimize", "lint"];
+	exports.ALL_BUILD_FLAGS = ["mangle", "expand", "squeeze", "beautify", "minimize", "lint"];
 	exports.LINT_OPTIONS = {
 		// Settings
 		"passfail" : false, // Stop on first error.

@@ -51,7 +51,7 @@
 						if (this.$elements.release.attr("checked")) {
 							buildSingleFile(craftjs.data.path, this.getTransformationFlags());
 						} else if (path) {
-							document.location = "/" + craftjs.data.context + "/" + path  + query + "&jsviewer=true";
+							document.location = "/" + craftjs.data.context + "/" + path  + query;
 						}
 					}
 				},
