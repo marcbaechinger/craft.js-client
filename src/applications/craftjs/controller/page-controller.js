@@ -76,7 +76,7 @@
 							path = target.data("path"),
 							query = buildFlagProvider(ALL_BUILD_FLAGS, target.closest("li"));
 
-						document.location = "/" + craftjs.data.context + "/" + path  + query;
+						document.location = "/" + craftjs.data.context + "/" + path  + query + "&jsviewer=true";
 					},
 					"@build-job": function (e) {
 						var target = $(e.target),
